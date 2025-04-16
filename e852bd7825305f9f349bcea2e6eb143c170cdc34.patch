@@ -1,0 +1,29 @@
+From e852bd7825305f9f349bcea2e6eb143c170cdc34 Mon Sep 17 00:00:00 2001
+From: Delta <davidjoshuasim@gmail.com>
+Date: Sat, 22 May 2021 23:32:35 -0700
+Subject: [PATCH] Fixed Issue 5
+
+---
+ index.js | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/index.js b/index.js
+index c112985..c5b875a 100755
+--- a/index.js
++++ b/index.js
+@@ -38,13 +38,13 @@ function fromSignedInt8(byte) {
+ 
+ //Get A List Of Serial Ports:
+ exports.ports = (cb) => {
+-	Serial.list((err, ports) => { cb(err?[]:ports); });
++	Serial.list().then(ports => cb(ports), err => cb([]));
+ }
+ 
+ //Asks you to select a serial port:
+ exports.prompt = (cb) => {
+ 	//List available ports in command line:
+-	Serial.list((err, ports) => {
++	Serial.list().then(ports => {
+ 		console.log(chalk.yellow("--------- Available Ports ---------"));
+ 		for(let i=0; i < ports.length; i++) {
+ 			let commString = "["+(i+1)+"] "+ports[i].comName;
